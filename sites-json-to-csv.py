@@ -1,3 +1,12 @@
+'''
+Note: You'll need to have in hand a JSON file with your sites data in it. 
+For Yale, the API call is 
+https://onlineexhibits.library.yale.edu/api/sites?sort_by=created&sort_order=DESC&per_page=100&key_identity=[YOUR-API-IDENTITY]&key_credential=[YOUR-API-CREDENTIAL]
+This pulls it up in a browser, but it's possible to do it directly from the shell with curl. I just haven't gotten there yet.
+
+This script is NOT GOOD for updating so much, as it would erase the liaison and library if used crudely.
+'''
+
 import sys
 import json
 import csv
