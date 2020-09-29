@@ -23,4 +23,5 @@ with open('exhibit-data.csv', 'w', newline='') as csvfile:
 	datawriter = csv.writer(csvfile,dialect='excel')
 	datawriter.writerow(['ID', 'Theme', 'Title', 'Summary', 'OwnerID', 'Created', 'LastModified', 'Public?', 'Liaison', 'Library'])
 	for x in range(len(parsed_json)):
+#	TODO: update the columns and order to match actual working sheet
 		datawriter.writerow([parsed_json[x]['o:id'], parsed_json[x]['o:theme'], parsed_json[x]['o:title'], parsed_json[x]['o:summary'], parsed_json[x]['o:owner']['o:id'], datetime.fromisoformat(parsed_json[x]['o:created']['@value']).date().isoformat(), datetime.fromisoformat(parsed_json[x]['o:modified']['@value']).date().isoformat(), parsed_json[x]['o:is_public'], '[liaison placeholder]', '[library placeholder]'])
