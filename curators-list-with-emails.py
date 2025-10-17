@@ -21,17 +21,18 @@ print("Data for " + str(len(sites)) + " Sites retrieved.")
 
 with open('curator-list.csv', 'w', newline='') as csvfile:
 	datawriter = csv.writer(csvfile,dialect='excel')
-	datawriter.writerow(['Title', 'URI', 'Public?', 'OwnerID', 'Name', 'Email', 'Active?'])
+	datawriter.writerow(['SiteID','Title', 'URI', 'Public?', 'Site User', 'Site User Role', 'Email', 'Active?'])
 	print("Requesting data for site owners from Omeka S API")
 	for x in range(len(sites)):
-# 		print('Target URI = ' + baseApiUrl + str(sites[x]['o:owner']['o:id']) +\
-# 		'?key_identity=' + secrets.identity + '&key_credential=' + secrets.credential)
-# 		print("Requesting data for User with account id " +\
-# 		str(sites[x]['o:owner']['o:id']) + " from Omeka S API")
-		ownerJSON = requests.get(baseApiUrl + 'users/' + str(sites[x]['o:owner']['o:id']) +\
-		'?key_identity=' + secrets.identity + '&key_credential=' + secrets.credential)\
-		.json()
+		siteUserURI = baseApiUrl + 'users?key_identity=' + secrets.identity +\
+		'&key_credential=' + secrets.credential + "&site_permission_site_id=" + str(sites[x]['o:owner']['o:id'])
+#		print(siteUserURI)
+		siteUserJSON = requests.get(siteUserURI).json()
+		siteUsers = ""
+		for i in range(len(siteUserJSON)):
+#			print([sites[x]['o:id'], sites[x]['o:title'], basePublicUrl + sites[x]['o:slug'], 'Y' if sites[x]['o:is_public'] else 'N', siteUserJSON[i]['o:name'], siteUserJSON[i]['o:role'], siteUserJSON[i]['o:email'], 'Y' if siteUserJSON[i]['o:is_active'] else 'N'])
+			datawriter.writerow([sites[x]['o:id'], sites[x]['o:title'], basePublicUrl + sites[x]['o:slug'], 'Y' if sites[x]['o:is_public'] else 'N', siteUserJSON[i]['o:name'], siteUserJSON[i]['o:role'], siteUserJSON[i]['o:email'], 'Y' if siteUserJSON[i]['o:is_active'] else 'N'])
+		
 		if (x % 5 == 0 and x > 0):
-			print("Data for " + str(x) + " Site owners written to CSV")
-		datawriter.writerow([sites[x]['o:title'], basePublicUrl + sites[x]['o:slug'], 'Y' if sites[x]['o:is_public'] else 'N', ownerJSON['o:id'], ownerJSON['o:name'], ownerJSON['o:email'], 'Y' if ownerJSON['o:is_active'] else 'N'])
+			print("Data for " + str(x) + " Sites written to CSV")
 	print("Data for " + str(x+1) + " Sites written to CSV")
