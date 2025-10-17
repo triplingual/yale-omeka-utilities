@@ -1,2 +1,4 @@
 *.csv
 secrets.py
+*.xls*
+__pycache__
