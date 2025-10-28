@@ -14,3 +14,6 @@ case $resp1 in
 esac
 
 rsync -auv --delete --exclude .DS_Store --exclude README.md --exclude .git /Users/trip/Coding/omekaverse/Exhibits_2019_Theme_SideNav onlineexhibitions-qa:~
+
+echo
+echo "The theme is not fully synced. You must execute the script on the QA server as well."
